@@ -143,4 +143,4 @@ Individual repositories may override or extend these instructions with their own
 ## Task Master AI Instructions
 
 **Import Task Master's development workflow commands and guidelines when available:**
-@./.taskmaster/CLAUDE.md
+[See .taskmaster/CLAUDE.md for details.](./.taskmaster/CLAUDE.md)
