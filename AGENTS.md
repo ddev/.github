@@ -14,7 +14,7 @@ This file provides guidance to AI agents when working with code in DDEV reposito
 
 ### AI Language Guidelines
 
-- Avoid words that reveal AI writing: "Comprehensive", "works perfectly", "You're absolutely right"
+- Avoid words that reveal AI writing: "Comprehensive", "seamless", "works perfectly", "You're absolutely right"
 - Don't say "perfect" in response to actions
 - Don't claim results are "ready for production use" without verification
 
@@ -22,7 +22,7 @@ This file provides guidance to AI agents when working with code in DDEV reposito
 
 DDEV is an open-source tool for running local web development environments for PHP and Node.js. It uses Docker containers to provide consistent, isolated development environments with minimal configuration.
 
-For comprehensive developer documentation, see:
+For developer documentation, see:
 
 - [Developer Documentation](https://docs.ddev.com/en/stable/developers/) - Complete developer guide
 - [Add-on Development](https://docs.ddev.com/en/stable/users/extend/creating-add-ons/) - DDEV add-on development guide
@@ -35,6 +35,7 @@ For comprehensive developer documentation, see:
 - `go test -v ./pkg/[package]` - Test specific package
 - `make testpkg TESTARGS="-run TestName"` - Run subset of tests
 - `make staticrequired` - Run all required static analysis
+- **Prefer `require` over `assert`** in tests for all assertions
 
 **For DDEV Add-ons:**
 - `bats tests` - Run add-on tests (primary testing strategy)
@@ -108,6 +109,24 @@ Examples:
 - `docs: clarify setup instructions`
 - `feat: add new service support`
 
+Always add a Co-Authored-By trailer to commits made with AI assistance:
+
+```
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+```
+
+**Creating commits with markdown content:** Use `git commit -F -` (read from stdin) rather than `-m "$(cat <<'EOF'...)"` to preserve `##` headers and other markdown formatting:
+
+```bash
+cat <<'EOF' | git commit -F -
+type: description
+
+## The Issue
+...
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+EOF
+```
+
 ### Pre-Commit Workflow
 
 **For Core DDEV:**
@@ -128,6 +147,7 @@ Examples:
 - Always use absolute paths when working with repository files
 - Focus on surgical, minimal changes that maintain compatibility
 - Handle credentials securely in any pull operations or integrations
+- **Never run `git push` without explicit user confirmation**
 
 ## Important Instruction Reminders
 
@@ -140,7 +160,6 @@ NEVER proactively create documentation files (*.md) or README files. Only create
 
 Individual repositories may override or extend these instructions with their own AGENTS.md file for project-specific guidance.
 
-## Task Master AI Instructions
+## Build and Diagnostics Notes
 
-**Import Task Master's development workflow commands and guidelines when available:**
-[See .taskmaster/CLAUDE.md for details.](./.taskmaster/CLAUDE.md)
+- IDE diagnostics (e.g. from language servers) can be stale. If `make` or the relevant build/test command is clean, ignore IDE diagnostics.
