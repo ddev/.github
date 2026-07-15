@@ -53,6 +53,7 @@ Step-by-step guides for each of them are in the docs: **[Quickstart guides](http
 [![Bluesky](https://img.shields.io/badge/Bluesky-0285FF?style=for-the-badge&logo=bluesky&logoColor=white)](https://bsky.app/profile/ddev.bsky.social)
 [![Mastodon](https://img.shields.io/badge/Mastodon-6364FF?style=for-the-badge&logo=mastodon&logoColor=white)](https://fosstodon.org/@ddev)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/company/ddev-foundation)
+[![Newsletter](https://img.shields.io/badge/Newsletter-0D5A8F?style=for-the-badge&logo=minutemailer&logoColor=white)](https://ddev.com/newsletter/)
 
 </div>
 
