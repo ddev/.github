@@ -1,45 +1,58 @@
-name: 🐞 Bug report
+name: 🐞 Bug report or Support Request
 description: Create a report to help us improve.
 labels: [bug]
 body:
-  - type: checkboxes
-    attributes:
-      label: Is there an existing issue for this?
-      description: Please [search existing issues](https://github.com/ddev/ddev/issues) to see if yours has already been reported.
-      options:
-        - label: I have searched the existing issues
-          required: true
   - type: textarea
     attributes:
-      label: Run a Diagnostic and Paste Link Here
-      description: |
-        If you’re having trouble with DDEV, help us with context that will skip a bunch of questions:
+      label: Short summary (TL;DR)
+      description: One or two sentences describing the problem, so anyone reading can tell at a glance what this is about. Details go in the sections below.
+      placeholder: "`ddev start` fails with a port conflict after upgrading, on macOS with OrbStack."
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Preliminary checklist
+      description: Please complete the checks that apply before submitting an issue.
+      options:
+        - label: I have searched the existing issues in this repository
+          required: true
+        - label: I am using the latest stable version of DDEV (see [upgrade guide](https://docs.ddev.com/en/stable/users/install/ddev-upgrade/)) and of this project, if it has releases
+        - label: I have checked the [troubleshooting guide](https://docs.ddev.com/en/stable/users/usage/troubleshooting/)
+  - type: textarea
+    attributes:
+      label: Output of `ddev utility test` or `ddev utility diagnose`
+      value: |
+        <details><summary>Expand `ddev utility test` diagnostic information</summary>
 
-        1. Make sure you’re on the [latest stable version](https://github.com/ddev/ddev/releases/latest) before reporting, [upgrading](https://ddev.readthedocs.io/en/latest/users/install/ddev-installation/) if necessary.
-        2. Run a diagnostic and post the results as a new Gist (or your favorite equivalent). Run `ddev debug test`, or download and run [test_ddev.sh](https://raw.githubusercontent.com/ddev/ddev/master/cmd/ddev/cmd/scripts/test_ddev.sh), and share a link to the results via https://gist.github.com. (If this works, there may not be something wrong with DDEV but something to [troubleshoot in your project](https://ddev.readthedocs.io/en/latest/users/basics/troubleshooting/).)
+        ```
+        [COPY-PASTE HERE THE OUTPUT OF `ddev utility test`]
+        ```
+        </details>
+      description: |
+        Diagnostic output skips a bunch of questions we'd have to ask afterwards. Run `ddev utility test` (or at least `ddev utility diagnose`) and paste the output here, or share a link to it via https://gist.github.com.
     validations:
       required: false
   - type: textarea
     attributes:
-      label: Expected Behavior
-      description: What did you expect to happen?
-    validations:
-      required: true
-  - type: textarea
-    attributes:
       label: Actual Behavior
-      description: What actually happened instead?
+      description: What went wrong?
     validations:
       required: true
   - type: textarea
     attributes:
-      label: Steps To Reproduce
+      label: Expected Behavior
+      description: What did you expect to happen instead?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Reproduction Steps
       description: Specific steps to reproduce the behavior.
       placeholder: |
-        1. In this environment... 
-        2. With this config... 
-        3. Run `...` 
-        4. See error... 
+        1. In this environment...
+        2. With this config...
+        3. Run `...`
+        4. See error...
     validations:
       required: false
   - type: textarea
@@ -51,3 +64,9 @@ body:
         💡 Attach images or log files by clicking this area to highlight it and dragging files in.
     validations:
       required: false
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        💙 DDEV is free and maintained by the nonprofit DDEV Foundation. If DDEV
+        saves you or your team time, consider [sponsoring the project](https://ddev.com/sponsor).
