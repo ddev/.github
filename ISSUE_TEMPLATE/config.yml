@@ -3,6 +3,6 @@ contact_links:
   - name: 💬 DDEV Community Discord
     url: https://ddev.com/s/discord
     about: Join the DDEV Community to talk, exchange experiences or ask and answer questions.
-  - name: 📒 Stack Overflow
-    url: https://stackoverflow.com/questions/tagged/ddev
-    about: Please ask and answer questions here.
+  - name: 💙 Sponsor DDEV
+    url: https://ddev.com/sponsor
+    about: DDEV is free and open source, funded by its community. Consider sponsoring to help keep it independent.

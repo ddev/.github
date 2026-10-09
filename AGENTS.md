@@ -1,165 +1,95 @@
 # AGENTS.md
 
-This file provides guidance to AI agents when working with code in DDEV repositories.
+Organization-wide guidance for AI agents working in DDEV repositories. A
+repository's own `AGENTS.md` takes precedence over this file. DDEV docs:
+[developers](https://docs.ddev.com/en/stable/developers/),
+[add-ons](https://docs.ddev.com/en/stable/users/extend/creating-add-ons/).
 
-## Communication Style
+## Boundaries
 
-- Use direct, concise language without unnecessary adjectives or adverbs
-- Avoid flowery or marketing-style language ("tremendous", "dramatically", "revolutionary", "working perfectly", etc.)
-- Don't include flattery or excessive praise ("excellent!", "perfect!", "great job!")
-- State facts and findings directly without embellishment
-- Skip introductory phrases like "I'm excited to", "I'd be happy to", "Let me dive into"
-- Avoid concluding with summary statements unless specifically requested
-- When presenting options or analysis, lead with the core information, not commentary about it
+- **Never** commit secrets, API keys, or `.env` files.
+- **Never** leave trailing whitespace; blank lines must be empty.
+- **Ask first** before `git push` or any other command that publishes to a
+  remote, and push only after the user explicitly confirms.
+- **Always** run the repository's lint and test commands for the code you
+  changed before committing.
+- **Always** put temporary files and test projects in `~/tmp`.
 
-### AI Language Guidelines
+## Code and files
 
-- Avoid words that reveal AI writing: "Comprehensive", "seamless", "works perfectly", "You're absolutely right"
-- Don't say "perfect" in response to actions
-- Don't claim results are "ready for production use" without verification
+- Make the smallest change that solves the task, and keep existing behavior
+  compatible.
+- Match the file's indentation, line endings, and surrounding style.
+- Fetch GitHub files from `raw.githubusercontent.com`, not
+  `github.com/.../blob/...` pages.
 
-## DDEV Project Overview
+## Writing style
 
-DDEV is an open-source tool for running local web development environments for PHP and Node.js. It uses Docker containers to provide consistent, isolated development environments with minimal configuration.
+Applies to conversation, commit messages, PR and issue text, docs, and code
+comments.
 
-For developer documentation, see:
+- Lead with the substance. Skip introductions, compliments, and closing
+  summaries unless asked.
+- Report results plainly, including what failed, was skipped, or is
+  unverified.
+- **Never use:** `comprehensive`, `seamless`, `genuine(ly)`, `honest(ly)`,
+  `truly`, `really` (as an intensifier), `perfect(ly)`, `robust`, `powerful`,
+  `effortless`, `production-ready`, `tremendous`, `dramatically`,
+  `revolutionary`, `delve`, `elevate`, `unleash`. Delete the word; if the
+  sentence then loses meaning, add evidence instead.
 
-- [Developer Documentation](https://docs.ddev.com/en/stable/developers/) - Complete developer guide
-- [Add-on Development](https://docs.ddev.com/en/stable/users/extend/creating-add-ons/) - DDEV add-on development guide
+## Branches and commits
 
-## Common DDEV Development Patterns
-
-### Testing
-
-**For Core DDEV Projects:**
-- `go test -v ./pkg/[package]` - Test specific package
-- `make testpkg TESTARGS="-run TestName"` - Run subset of tests
-- `make staticrequired` - Run all required static analysis
-- **Prefer `require` over `assert`** in tests for all assertions
-
-**For DDEV Add-ons:**
-- `bats tests` - Run add-on tests (primary testing strategy)
-- Manual testing: Create test project in `~/tmp/` and install add-on locally
-- Test with sample configurations in `tests/testdata/`
-
-### Whitespace and Formatting
-
-- **Never add trailing whitespace** - Blank lines must be completely empty (no spaces or tabs)
-- Match existing indentation style exactly (spaces vs tabs, indentation depth)
-- Preserve the file's existing line ending style
-- Run linting tools to catch whitespace issues before committing
-
-### Development Environment Setup
-
-- **Temporary files**: Use `~/tmp` for temporary directories and test projects
-- **Command execution**: For bash commands that don't start with a script or executable, wrap with `bash -c "..."`
-
-## Working with DDEV Repositories
-
-### Branch Naming
-
-Use descriptive branch names that include:
-
-- Date in YYYYMMDD format
-- Your GitHub username
-- Brief description of the work
-
-Format: `YYYYMMDD_<username>_<short_description>`
-
-Examples:
-
-- `20250925_rfay_move_to_ddev`
-- `20250925_username_fix_postgres`
-- `20250925_contributor_update_tests`
-
-**Branch Creation Strategy:**
-
-The recommended approach for creating branches is:
+Name branches `YYYYMMDD_<username>_<short_description>`, for example
+`20250925_rfay_fix_postgres`, and create them from upstream (use `origin` when
+there is no `upstream` remote):
 
 ```bash
 git fetch upstream && git checkout -b <branch_name> upstream/main --no-track
 ```
 
-This method:
+Write commit titles in [Conventional Commits](https://www.conventionalcommits.org/)
+format:
+`<type>[optional scope][optional !]: <description>[, fixes #<issue>][, for #<issue>]`,
+with type one of `build`, `chore`, `ci`, `docs`, `feat`, `fix`, `perf`,
+`refactor`, `style`, `test`. Write the description in the imperative, start
+it lowercase, and end it without a period. For example:
+`fix: handle container networking timeout, fixes #1234`. Main-branch titles
+generate the release changelog, so describe the change for users.
 
-- Fetches latest upstream changes
-- Creates branch directly from upstream/main
-- Doesn't require syncing local main branch
-- Uses --no-track to avoid tracking upstream/main
+## Pull requests and issues
 
-### Pull Request Creation
+- Write the first commit's body as the PR description, following the
+  repository's `.github/PULL_REQUEST_TEMPLATE.md` or the
+  [organization default](https://raw.githubusercontent.com/ddev/.github/main/PULL_REQUEST_TEMPLATE.md).
+  For issues, use the field labels of the repository's issue form as
+  headings.
+- Always fill in "Short Summary (TL;DR)". Omit other sections that don't
+  apply, headings included.
+- Explain why the change was made and what to check by hand, not what the diff
+  already shows.
+- Pass bodies from a file: `git commit -F <file>`,
+  `gh pr create --body-file <file>`, `gh issue create --body-file <file>`.
+- In commit, PR, and issue bodies, keep each paragraph on one line; GitHub
+  turns every line break inside a paragraph into `<br>`.
+- When amending a commit, re-check every claim in its body against the
+  current diff.
+- After adding commits to a branch with an open PR, re-read the PR body
+  against the whole branch diff, and update it with
+  `gh pr edit --body-file <file>` if a claim is no longer true.
 
-When creating pull requests for DDEV repositories, follow the PR template structure:
+## AI attribution
 
-**Required Sections:**
+End commit messages and PR descriptions with a line naming and linking the AI
+tool you are running in. In commits only, add a `Co-Authored-By` trailer
+naming the model in use and your vendor's noreply address; skip the trailer if
+you don't know that address.
 
-- **The Issue:** Reference issue number with `#<issue>` and brief description
-- **How This PR Solves The Issue:** Technical explanation of the solution
-- **Manual Testing Instructions:** Step-by-step guide for testing changes
-- **Automated Testing Overview:** Description of tests or explanation why none needed
-- **Release/Deployment Notes:** Impact assessment and deployment considerations
+```text
+🤖 Developed with assistance from [<tool>](<tool URL>)
 
-**Commit Message Format:**
-
-Follow Conventional Commits: `<type>[optional scope][optional !]: <description>[, fixes #<issue>]`
-
-Examples:
-
-- `fix: handle container networking timeout, fixes #1234`
-- `docs: clarify setup instructions`
-- `feat: add new service support`
-
-Always add a Co-Authored-By trailer to commits made with AI assistance:
-
-```
-Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
-```
-
-**Creating commits with markdown content:** Use `git commit -F -` (read from stdin) rather than `-m "$(cat <<'EOF'...)"` to preserve `##` headers and other markdown formatting:
-
-```bash
-cat <<'EOF' | git commit -F -
-type: description
-
-## The Issue
-...
-Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
-EOF
+Co-Authored-By: <model> <<vendor noreply address>>
 ```
 
-### Pre-Commit Workflow
-
-**For Core DDEV:**
-1. Run appropriate tests
-2. Run `make staticrequired` (REQUIRED)
-3. Fix any issues reported
-4. Stage and commit changes
-
-**For DDEV Add-ons:**
-1. Run `bats tests` or specific test files
-2. Test manually with local installation
-3. Fix any issues reported
-4. Stage and commit changes
-
-## Security & Configuration Tips
-
-- Do not commit secrets or API keys
-- Always use absolute paths when working with repository files
-- Focus on surgical, minimal changes that maintain compatibility
-- Handle credentials securely in any pull operations or integrations
-- **Never run `git push` without explicit user confirmation**
-
-## Important Instruction Reminders
-
-Do what has been asked; nothing more, nothing less.
-NEVER create files unless they're absolutely necessary for achieving your goal.
-ALWAYS prefer editing an existing file to creating a new one.
-NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
-
-## Repository-Specific Instructions
-
-Individual repositories may override or extend these instructions with their own AGENTS.md file for project-specific guidance.
-
-## Build and Diagnostics Notes
-
-- IDE diagnostics (e.g. from language servers) can be stale. If `make` or the relevant build/test command is clean, ignore IDE diagnostics.
+For example, Claude Code writes `[Claude Code](https://claude.ai/code)` and
+`Co-Authored-By: Claude <model> <noreply@anthropic.com>`.
