@@ -78,6 +78,10 @@ generate the release changelog, so describe the change for users.
   against the whole branch diff, and update it with
   `gh pr edit --body-file <file>` if a claim is no longer true.
 
+DDEV maintainers can install the
+[ddev/agent-skills](https://github.com/ddev/agent-skills) plugin, which
+follows these patterns. Its README lists the skills.
+
 ## AI attribution
 
 End commit messages and PR descriptions with a line naming and linking the AI
